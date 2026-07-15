@@ -63,6 +63,12 @@ const Read = () => {
       </div>
     );
   }
+  const filteredData = data.filter((eachData) => {
+  return (
+    eachData.name.toLowerCase().includes(search.toLowerCase()) ||
+    eachData.email.toLowerCase().includes(search.toLowerCase())
+  );
+});
 
   return (
     <>
@@ -89,46 +95,47 @@ const Read = () => {
         </thead>
 
         <tbody>
-          {data
-          .filter((eachData) => {
-        return (
-        eachData.name.toLowerCase().includes(search.toLowerCase()) ||
-        eachData.email.toLowerCase().includes(search.toLowerCase())
-      );
-    })
-          .map((eachData) => (
-            <tr key={eachData.id}>
-              <th>{eachData.id}</th>
-              <td>{eachData.name}</td>
-              <td>{eachData.email}</td>
+  {filteredData.length === 0 ? (
+    <tr>
+      <td colSpan="5" className="text-center text-danger">
+        No Records Found 😞
+      </td>
+    </tr>
+  ) : (
+    filteredData.map((eachData) => (
+      <tr key={eachData.id}>
+        <th>{eachData.id}</th>
+        <td>{eachData.name}</td>
+        <td>{eachData.email}</td>
 
-              <td>
-                <button
-                  className="btn btn-success"
-                  onClick={() => {
-                    setToLocalStorage(
-                      eachData.id,
-                      eachData.name,
-                      eachData.email
-                    );
-                    navigate("/update");
-                  }}
-                >
-                  Edit
-                </button>
-              </td>
+        <td>
+          <button
+            className="btn btn-success"
+            onClick={() => {
+              setToLocalStorage(
+                eachData.id,
+                eachData.name,
+                eachData.email
+              );
+              navigate("/update");
+            }}
+          >
+            Edit
+          </button>
+        </td>
 
-              <td>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleDelete(eachData.id)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <td>
+          <button
+            className="btn btn-danger"
+            onClick={() => handleDelete(eachData.id)}
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
       </table>
     </>
   );
