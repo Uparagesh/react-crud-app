@@ -4,9 +4,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+
 const Read = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
   function handleDelete(id) {
@@ -65,6 +67,15 @@ const Read = () => {
   return (
     <>
       <h2>Read Operation</h2>
+      <div className="mb-3">
+  <input
+    type="text"
+    className="form-control"
+    placeholder="Search by Name or Email"
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+</div>
 
       <table className="table">
         <thead>
@@ -78,7 +89,14 @@ const Read = () => {
         </thead>
 
         <tbody>
-          {data.map((eachData) => (
+          {data
+          .filter((eachData) => {
+        return (
+        eachData.name.toLowerCase().includes(search.toLowerCase()) ||
+        eachData.email.toLowerCase().includes(search.toLowerCase())
+      );
+    })
+          .map((eachData) => (
             <tr key={eachData.id}>
               <th>{eachData.id}</th>
               <td>{eachData.name}</td>
