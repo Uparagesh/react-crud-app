@@ -1,7 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
-//import index from "./public/index";
 
 
 const Create = ({ setName, setEmail, handleSubmit, error }) => {

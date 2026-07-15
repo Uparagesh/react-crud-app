@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { validateForm } from "../Utils/validation";
 
 const Update = () => {
   const navigate = useNavigate();
@@ -20,25 +21,12 @@ const Update = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    // Name Validation
-    if (name.trim() === "") {
-      setError("Name is required");
-      return;
-    }
+    const errorMessage = validateForm(name, email);
 
-    // Email Required Validation
-    if (email.trim() === "") {
-      setError("Email is required");
-      return;
-    }
-
-    // Email Format Validation
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailPattern.test(email)) {
-      setError("Please enter a valid email");
-      return;
-    }
+    if (errorMessage) {
+    setError(errorMessage);
+    return;
+  }
 
     setError("");
 
